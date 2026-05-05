@@ -1,0 +1,6 @@
+# Don't commit if you create a config file for API key
+config.js
+
+# OS files
+.DS_Store
+Thumbs.db
