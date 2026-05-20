@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Weather App</title>
 </head>
+
 <body>
     <header>
-        <h1>Weather App</h1>
+        <h1>WEATHER APP</h1>
     </header>
 
     <main>
@@ -18,12 +20,25 @@
         </div>
 
         <div id="current-weather">
-            <h2 id="city-name"></h2>
-            <p id="temperature-display"></p>
-            <img id="weather-icon" src="" alt="weather-icon">
-            <p id="description"></p>
-            <p id="humidity"></p>
-            <p id="wind-speed"></p>
+
+            <div class="weather-left">
+                <img id="weather-icon" src="" alt="weather-icon">
+            </div>
+
+            <div class="weather-right">
+                <div class="info-right">
+                    <h2 id="city-name">city name</h2>
+                    <p id="temperature-display">temp</p>
+                </div>
+
+                <div class="info-left">
+                    <p id="description">description</p>
+                    <p id="humidity">humidity</p>
+                    <p id="wind-speed">speed</p>
+                </div>
+
+            </div>
+
 
         </div>
 
@@ -35,7 +50,7 @@
                     <p id="temperature-display-1"></p>
                     <img id="weather-icon-1" src="" alt="weather-icon-1">
                     <p id="description-1"></p>
-                    
+
                 </div>
 
                 <div id="card2">
@@ -67,4 +82,5 @@
 
     <script src="script.js"> </script>
 </body>
+
 </html>
