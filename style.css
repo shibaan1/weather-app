@@ -73,7 +73,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-   
+
 }
 
 .weather-right {
@@ -84,13 +84,14 @@ header {
     gap: 2rem;
 }
 
-.info-right{
+.info-right {
     flex: 1;
 }
 
-.info-left{
+.info-left {
     flex: 1;
 }
+
 #city-name {
     font-size: 1.8rem;
     font-weight: 800;
@@ -125,4 +126,46 @@ header {
     margin: 0.5rem 0rem;
     color: #b2b2b2;
     font-size: 1rem;
+}
+
+#forecast {
+    display: flex;
+    gap: 1.2rem;
+    max-width: 1300px;
+    margin: auto;
+}
+
+#card1,
+#card2,
+#card3,
+#card4 {
+    flex: 1;
+    background-color: #2a2a2a;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid goldenrod;
+    text-align: center;
+}
+
+#weather-icon-1,
+#weather-icon-2,
+#weather-icon-3,
+#weather-icon-4 {
+
+    width: 100px;
+    height: 100px;
+}
+
+#day-1, #day-2, #day-3, #day-4{
+    font-weight: 650 ;
+    font-size:1.5rem ;
+    margin-bottom: 0.5rem;
+}
+
+#temperature-display-1, #temperature-display-2, 
+#temperature-display-3, #temperature-display-4 {
+
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e0e0e0;
 }
