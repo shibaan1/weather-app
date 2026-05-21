@@ -73,6 +73,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+        border: 2px solid yellow;
 
 }
 
@@ -86,10 +87,12 @@ header {
 
 .info-right {
     flex: 1;
+        border: 2px solid red;
 }
 
 .info-left {
     flex: 1;
+        border: 2px solid green;
 }
 
 #city-name {

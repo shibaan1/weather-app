@@ -37,3 +37,38 @@ const day_4 = document.getElementById("day-4")
 const temperature_display_4 = document.getElementById("temperature-display-4")
 const weather_icon_4 = document.getElementById("weather-icon-4")
 const description_4 = document.getElementById("description-4")
+
+
+async function getWeatherData(city){
+
+    try{
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+
+        const response = await fetch(url)
+        const data = await response.json()
+        return data
+    }
+
+    catch(error){
+        console.log(error)
+
+    }
+}
+
+function displayWeather(data){
+    city_name.textContent = data.name
+    temperature_display.textContent =` ${data.main.temp}°C`
+    description.textContent = data.weather[0].description
+    weather_icon.src= `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    humidity.textContent = `Humidity : ${data.main.humidity}`
+    wind_Speed.textContent = `wind speed : ${data.wind.speed}`
+
+}
+
+search_btn.addEventListener('click' , async ()=>{
+
+    const city = search_input.value
+    const data = await getWeatherData(city)
+    displayWeather(data)
+
+})
