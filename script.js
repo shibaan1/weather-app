@@ -1,4 +1,8 @@
-const Api_key = "31d28874153c734fbe33e28d609edc8b"
+// ⚠️ WARNING: This is a personal API key for development
+// Get your own FREE API key from: https://openweathermap.org/api
+// DO NOT use this key in your projects!
+const API_KEY = "31d28874153c734fbe33e28d609edc8b"
+
 
 const search_input = document.getElementById("search-input")
 
