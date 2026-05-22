@@ -13,6 +13,8 @@ const weather_icon = document.getElementById("weather-icon")
 const description = document.getElementById("description")
 const humidity = document.getElementById("humidity")
 const wind_Speed = document.getElementById("wind-speed")
+const current_day = document.getElementById("current-day")
+const error_message = document.getElementById('error-message')
 
 const card1 = document.getElementById("card1")
 const day_1 = document.getElementById("day-1")
@@ -60,28 +62,43 @@ function displayWeather(data) {
     weather_icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     humidity.textContent = `Humidity : ${data.main.humidity}`
     wind_Speed.textContent = `wind speed : ${data.wind.speed}`
+    current_day.textContent = new Date().toLocaleDateString('en-US', {weekday: 'long'})
 
 }
 
 search_btn.addEventListener('click', async () => {
 
     const city = search_input.value
+
+    error_message.textContent = ''
+
+    if(city === ""){
+        error_message.textContent = 'please enter city name'
+        return
+    }
+
     const data = await getWeatherData(city)
+
+    if(data.cod === '404'){
+        error_message.textContent = 'city not found. Please try again'
+        return
+    }
+
     displayWeather(data)
 
     const forecast_data = await getForecastData(city)
     displayForecast(forecast_data)
 })
 
-async function getForecastData(city){
+async function getForecastData(city) {
 
-    try{
+    try {
         const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
 
         const response = await fetch(url)
         const data = await response.json()
         return data
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -89,23 +106,23 @@ async function getForecastData(city){
 function displayForecast(forecast_data) {
 
     const noonForecast = forecast_data.list.filter(item => item.dt_txt.includes("12:00:00"))
-    
-    day_1.textContent = new Date(noonForecast[0].dt_txt).toLocaleDateString('en-US' , {weekday: 'long'})
+
+    day_1.textContent = new Date(noonForecast[0].dt_txt).toLocaleDateString('en-US', { weekday: 'long' })
     temperature_display_1.textContent = noonForecast[0].main.temp
     description_1.textContent = noonForecast[0].weather[0].description
     weather_icon_1.src = `https://openweathermap.org/img/wn/${noonForecast[0].weather[0].icon}@2x.png`
 
-    day_2.textContent = new Date(noonForecast[1].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    day_2.textContent = new Date(noonForecast[1].dt_txt).toLocaleDateString('en-US', { weekday: 'long' })
     temperature_display_2.textContent = noonForecast[1].main.temp
     description_2.textContent = noonForecast[1].weather[0].description
     weather_icon_2.src = `https://openweathermap.org/img/wn/${noonForecast[1].weather[0].icon}@2x.png`
 
-    day_3.textContent = new Date(noonForecast[2].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    day_3.textContent = new Date(noonForecast[2].dt_txt).toLocaleDateString('en-US', { weekday: 'long' })
     temperature_display_3.textContent = noonForecast[2].main.temp
     description_3.textContent = noonForecast[2].weather[0].description
     weather_icon_3.src = `https://openweathermap.org/img/wn/${noonForecast[2].weather[0].icon}@2x.png`
 
-    day_4.textContent = new Date(noonForecast[3].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    day_4.textContent = new Date(noonForecast[3].dt_txt).toLocaleDateString('en-US', { weekday: 'long' })
     temperature_display_4.textContent = noonForecast[3].main.temp
     description_4.textContent = noonForecast[3].weather[0].description
     weather_icon_4.src = `https://openweathermap.org/img/wn/${noonForecast[3].weather[0].icon}@2x.png`
