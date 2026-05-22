@@ -15,60 +15,100 @@ const humidity = document.getElementById("humidity")
 const wind_Speed = document.getElementById("wind-speed")
 
 const card1 = document.getElementById("card1")
-const day_1 = document.getElementById("day-1") 
+const day_1 = document.getElementById("day-1")
 const temperature_display_1 = document.getElementById("temperature-display-1")
 const weather_icon_1 = document.getElementById("weather-icon-1")
 const description_1 = document.getElementById("description-1")
 
 const card2 = document.getElementById("card2")
-const day_2 = document.getElementById("day-2") 
+const day_2 = document.getElementById("day-2")
 const temperature_display_2 = document.getElementById("temperature-display-2")
 const weather_icon_2 = document.getElementById("weather-icon-2")
 const description_2 = document.getElementById("description-2")
 
 const card3 = document.getElementById("card3")
-const day_3 = document.getElementById("day-3") 
+const day_3 = document.getElementById("day-3")
 const temperature_display_3 = document.getElementById("temperature-display-3")
 const weather_icon_3 = document.getElementById("weather-icon-3")
 const description_3 = document.getElementById("description-3")
 
 const card4 = document.getElementById("card4")
-const day_4 = document.getElementById("day-4") 
+const day_4 = document.getElementById("day-4")
 const temperature_display_4 = document.getElementById("temperature-display-4")
 const weather_icon_4 = document.getElementById("weather-icon-4")
 const description_4 = document.getElementById("description-4")
 
 
-async function getWeatherData(city){
+async function getWeatherData(city) {
 
-    try{
+    try {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
 
         const response = await fetch(url)
         const data = await response.json()
         return data
     }
-
-    catch(error){
+    catch (error) {
         console.log(error)
-
     }
 }
 
-function displayWeather(data){
+function displayWeather(data) {
     city_name.textContent = data.name
-    temperature_display.textContent =` ${data.main.temp}°C`
+    temperature_display.textContent = ` ${data.main.temp}°C`
     description.textContent = data.weather[0].description
-    weather_icon.src= `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    weather_icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     humidity.textContent = `Humidity : ${data.main.humidity}`
     wind_Speed.textContent = `wind speed : ${data.wind.speed}`
 
 }
 
-search_btn.addEventListener('click' , async ()=>{
+search_btn.addEventListener('click', async () => {
 
     const city = search_input.value
     const data = await getWeatherData(city)
     displayWeather(data)
 
+    const forecast_data = await getForecastData(city)
+    displayForecast(forecast_data)
 })
+
+async function getForecastData(city){
+
+    try{
+        const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+
+        const response = await fetch(url)
+        const data = await response.json()
+        return data
+    }catch(error){
+        console.log(error)
+    }
+}
+
+function displayForecast(forecast_data) {
+
+    const noonForecast = forecast_data.list.filter(item => item.dt_txt.includes("12:00:00"))
+    
+    day_1.textContent = new Date(noonForecast[0].dt_txt).toLocaleDateString('en-US' , {weekday: 'long'})
+    temperature_display_1.textContent = noonForecast[0].main.temp
+    description_1.textContent = noonForecast[0].weather[0].description
+    weather_icon_1.src = `https://openweathermap.org/img/wn/${noonForecast[0].weather[0].icon}@2x.png`
+
+    day_2.textContent = new Date(noonForecast[1].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    temperature_display_2.textContent = noonForecast[1].main.temp
+    description_2.textContent = noonForecast[1].weather[0].description
+    weather_icon_2.src = `https://openweathermap.org/img/wn/${noonForecast[1].weather[0].icon}@2x.png`
+
+    day_3.textContent = new Date(noonForecast[2].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    temperature_display_3.textContent = noonForecast[2].main.temp
+    description_3.textContent = noonForecast[2].weather[0].description
+    weather_icon_3.src = `https://openweathermap.org/img/wn/${noonForecast[2].weather[0].icon}@2x.png`
+
+    day_4.textContent = new Date(noonForecast[3].dt_txt).toLocaleDateString('en-US' , {weekday:'long'})
+    temperature_display_4.textContent = noonForecast[3].main.temp
+    description_4.textContent = noonForecast[3].weather[0].description
+    weather_icon_4.src = `https://openweathermap.org/img/wn/${noonForecast[3].weather[0].icon}@2x.png`
+
+
+}
