@@ -15,6 +15,7 @@ const humidity = document.getElementById("humidity")
 const wind_Speed = document.getElementById("wind-speed")
 const current_day = document.getElementById("current-day")
 const error_message = document.getElementById('error-message')
+const loading = document.getElementById('loading')
 
 const card1 = document.getElementById("card1")
 const day_1 = document.getElementById("day-1")
@@ -62,7 +63,7 @@ function displayWeather(data) {
     weather_icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     humidity.textContent = `Humidity : ${data.main.humidity}`
     wind_Speed.textContent = `wind speed : ${data.wind.speed}`
-    current_day.textContent = new Date().toLocaleDateString('en-US', {weekday: 'long'})
+    current_day.textContent = new Date().toLocaleDateString('en-US', { weekday: 'long' })
 
 }
 
@@ -71,15 +72,19 @@ search_btn.addEventListener('click', async () => {
     const city = search_input.value
 
     error_message.textContent = ''
+    loading.textContent = ''
 
-    if(city === ""){
+    if (city === "") {
         error_message.textContent = 'please enter city name'
         return
     }
 
+    loading.textContent = 'Loading....'
+
     const data = await getWeatherData(city)
 
-    if(data.cod === '404'){
+    if (data.cod === '404') {
+        loading.textContent = ''
         error_message.textContent = 'city not found. Please try again'
         return
     }
@@ -88,6 +93,8 @@ search_btn.addEventListener('click', async () => {
 
     const forecast_data = await getForecastData(city)
     displayForecast(forecast_data)
+
+    loading.textContent = ''
 })
 
 async function getForecastData(city) {
