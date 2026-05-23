@@ -58,7 +58,7 @@ async function getWeatherData(city) {
 
 function displayWeather(data) {
     city_name.textContent = data.name
-    temperature_display.textContent = ` ${data.main.temp}°C`
+    temperature_display.textContent = ` Temp: ${data.main.temp}°C`
     description.textContent = data.weather[0].description
     weather_icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     humidity.textContent = `Humidity : ${data.main.humidity}`
@@ -68,6 +68,13 @@ function displayWeather(data) {
 }
 
 search_btn.addEventListener('click', searchweather)
+
+search_input.addEventListener('keydown', (e) => {
+
+    if (e.key === 'Enter') {
+        searchweather()
+    }
+})
 
 async function getForecastData(city) {
 
@@ -108,15 +115,15 @@ function displayForecast(forecast_data) {
 
 }
 
-async function searchweather(){
+async function searchweather() {
 
-     const city = search_input.value
+    const city = search_input.value
 
     error_message.textContent = ''
     loading.textContent = ''
 
     if (city === "") {
-        error_message.textContent = 'please enter city name'
+        error_message.textContent = 'PLEASE ENTER CITY NAME !!'
         return
     }
 
@@ -126,7 +133,7 @@ async function searchweather(){
 
     if (data.cod === '404') {
         loading.textContent = ''
-        error_message.textContent = 'city not found. Please try again'
+        error_message.textContent = 'CITY NOT FOUND. PLEASE TRY AGAIN !!'
         return
     }
 
@@ -141,17 +148,17 @@ async function searchweather(){
 
 let debouncetimer
 
-function debounce(fn , delay){
+function debounce(fn, delay) {
 
-    return function(...args){
+    return function (...args) {
         clearTimeout(debouncetimer)
 
-       debouncetimer =  setTimeout(() =>{
-        fn(...args)
-       },delay)
+        debouncetimer = setTimeout(() => {
+            fn(...args)
+        }, delay)
     }
 }
 
-const debouncedsearch = debounce(searchweather , 500)
+const debouncedsearch = debounce(searchweather, 800)
 
-search_input.addEventListener('input' , debouncedsearch)
+search_input.addEventListener('input', debouncedsearch)
