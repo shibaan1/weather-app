@@ -67,35 +67,7 @@ function displayWeather(data) {
 
 }
 
-search_btn.addEventListener('click', async () => {
-
-    const city = search_input.value
-
-    error_message.textContent = ''
-    loading.textContent = ''
-
-    if (city === "") {
-        error_message.textContent = 'please enter city name'
-        return
-    }
-
-    loading.textContent = 'Loading....'
-
-    const data = await getWeatherData(city)
-
-    if (data.cod === '404') {
-        loading.textContent = ''
-        error_message.textContent = 'city not found. Please try again'
-        return
-    }
-
-    displayWeather(data)
-
-    const forecast_data = await getForecastData(city)
-    displayForecast(forecast_data)
-
-    loading.textContent = ''
-})
+search_btn.addEventListener('click', searchweather)
 
 async function getForecastData(city) {
 
@@ -134,5 +106,52 @@ function displayForecast(forecast_data) {
     description_4.textContent = noonForecast[3].weather[0].description
     weather_icon_4.src = `https://openweathermap.org/img/wn/${noonForecast[3].weather[0].icon}@2x.png`
 
+}
+
+async function searchweather(){
+
+     const city = search_input.value
+
+    error_message.textContent = ''
+    loading.textContent = ''
+
+    if (city === "") {
+        error_message.textContent = 'please enter city name'
+        return
+    }
+
+    loading.textContent = 'Loading....'
+
+    const data = await getWeatherData(city)
+
+    if (data.cod === '404') {
+        loading.textContent = ''
+        error_message.textContent = 'city not found. Please try again'
+        return
+    }
+
+    displayWeather(data)
+
+    const forecast_data = await getForecastData(city)
+    displayForecast(forecast_data)
+
+    loading.textContent = ''
 
 }
+
+let debouncetimer
+
+function debounce(fn , delay){
+
+    return function(...args){
+        clearTimeout(debouncetimer)
+
+       debouncetimer =  setTimeout(() =>{
+        fn(...args)
+       },delay)
+    }
+}
+
+const debouncedsearch = debounce(searchweather , 500)
+
+search_input.addEventListener('input' , debouncedsearch)
